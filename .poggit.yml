@@ -3,6 +3,7 @@ branches:
 - master
 projects:
   libform:
+    path: ""
     type: library
     model: virion
 ...
