@@ -1,10 +1,10 @@
-## MCBEFormAPI
+## libform
 
 ### How to use
 #### フォームAPI登録
 必要なuse
 ```php
-use tokyo\pmmp\MCBEFormAPI\{
+use tokyo\pmmp\libform\{
   FormApi
 };
 ```
@@ -24,7 +24,7 @@ public function onEnable() {
 #### モダルフォーム
 必要なuse
 ```php
-use tokyo\pmmp\MCBEFormAPI\{
+use tokyo\pmmp\libform\{
   FormApi
 };
 ```
@@ -42,7 +42,7 @@ $modal->setTitle("モダルフォーム")
 #### カスタムフォーム
 必要なuse
 ```php
-use tokyo\pmmp\MCBEFormApi\{
+use tokyo\pmmp\libform\{
   FormApi,
   element\Dropdown,
   element\Input,
@@ -69,7 +69,7 @@ $custom->setTitle("カスタムフォーム")
 #### リストフォーム
 必要なuse
 ```php
-use tokyo\pmmp\MCBEFormApi\{
+use tokyo\pmmp\libform\{
   FormApi,
   element\Button
 };

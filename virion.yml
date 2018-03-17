@@ -6,3 +6,4 @@ api:
 php:
   - 7.2
 author: yuko_fuyutsuki
+description: It is a library that can handle various forms easily.

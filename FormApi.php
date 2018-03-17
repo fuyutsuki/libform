@@ -3,7 +3,7 @@
 /**
  * // English
  *
- * MCBEFormAPI is a utility for PocketMine-MP for easy operation of forms
+ * libform is a library for PocketMine-MP for easy operation of forms
  * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
  * This software is distributed under "MIT license".
@@ -14,7 +14,7 @@
  * ---------------------------------------------------------------------
  * // 日本語
  *
- * MCBEFormAPIは、フォームを簡単に操作するためのpocketmine-MP向けユーティリティです
+ * libformは、フォームを簡単に操作するためのpocketmine-MP向けライブラリです
  * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
  * このソフトウェアは"MITライセンス"下で配布されています。
@@ -23,7 +23,7 @@
  * < https://opensource.org/licenses/mit-license >
  */
 
-namespace tokyo\pmmp\MCBEFormAPI;
+namespace tokyo\pmmp\libform;
 
 // pocketmine
 use pocketmine\{
@@ -34,8 +34,8 @@ use pocketmine\{
   plugin\PluginBase
 };
 
-// mcbeformapi
-use tokyo\pmmp\MCBEFormAPI\{
+// libform
+use tokyo\pmmp\libform\{
   form\CustomForm,
   form\ListForm,
   form\ModalForm
@@ -59,10 +59,18 @@ class FormApi implements Listener{
     $plugin->getServer()->getPluginManager()->registerEvents($this, $plugin);
   }
 
+  /**
+   * @return self
+   */
   public static function get(): self {
     return self::$instance;
   }
 
+  /**
+   * Generate a custom form
+   * @param  callable   $callable
+   * @return CustomForm
+   */
   public function makeCustomForm(callable $callable = null): CustomForm {
     $formId = $this->makeRandonFormId();
     $form = new CustomForm($formId, $callable);
@@ -70,6 +78,11 @@ class FormApi implements Listener{
     return $form;
   }
 
+  /**
+   * Generate a list form
+   * @param  callable $callable
+   * @return ListForm
+   */
   public function makeListForm(callable $callable = null): ListForm {
     $formId = $this->makeRandonFormId();
     $form = new ListForm($formId, $callable);
@@ -77,6 +90,11 @@ class FormApi implements Listener{
     return $form;
   }
 
+  /**
+   * Generate a modal form
+   * @param  callable  $callable
+   * @return ModalForm
+   */
   public function makeModalForm(callable $callable = null): ModalForm {
     $formId = $this->makeRandonFormId();
     $form = new ModalForm($formId, $callable);
@@ -84,8 +102,21 @@ class FormApi implements Listener{
     return $form;
   }
 
+  /**
+   * Generate random formId
+   * @return int formId
+   */
   public function makeRandonFormId(): int {
     return mt_rand(0, mt_getrandmax());
+  }
+
+  /**
+   * Check if the form has been canceled
+   * @param  mixed $response
+   * @return bool
+   */
+  public static function formCancelled($response): bool {
+    return $response === null? true : false;
   }
 
   public function onReceive(DataPacketReceiveEvent $event) {
@@ -117,9 +148,5 @@ class FormApi implements Listener{
         break;
       }
     }
-  }
-
-  public static function formCancelled($response): bool {
-    return $response === null? true : false;
   }
 }
