@@ -1,8 +1,8 @@
 name: libform
 antigen: tokyo\pmmp\libform
-version: 0.1.1
+version: 0.1.2
 api:
-  - 3.0.0-ALPHA11
+  - 3.0.0-ALPHA12
 php:
   - 7.2
 author: yuko_fuyutsuki
