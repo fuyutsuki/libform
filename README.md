@@ -12,13 +12,7 @@ use tokyo\pmmp\libform\{
 例ではPluginBase::onEnable()で実行しています
 ```php
 public function onEnable() {
-  // 方法1)
-  $this->formApi = new FormApi($this);
-
-  // 方法2)
-  new FormApi($this);
-  // 使用時に以下のように呼び出せます
-  $formApi = FormApi::get();
+  FormAPI::register($this);
 }
 ```
 #### モダルフォーム
@@ -31,7 +25,7 @@ use tokyo\pmmp\libform\{
 モダルフォームは"はい"か"いいえ"のような二択で答えるものです
 ```php
 // $this(このクラス)の"test"という名の関数をフォーム入力後に呼び出します
-$modal = FormApi::get()->makeModalForm([$this, "test"]);
+$modal = FormApi::makeModalForm([$this, "test"]);
 $modal->setTitle("モダルフォーム")
 ->setContents("内容")
 ->setButtonText(true, "はい")// true => 上側
@@ -55,7 +49,7 @@ use tokyo\pmmp\libform\{
 カスタムフォームは多彩なエレメントを使用して様々な使用用途に適すものです
 ```php
 // $this(このクラス)の"test"という名の関数をフォーム入力後に呼び出します
-$custom = FormApi::get()->makeCustomForm([$this, "test"]);
+$custom = FormApi::makeCustomForm([$this, "test"]);
 $custom->setTitle("カスタムフォーム")
 ->addElement(new Dropdown("ドロップダウン", ["あ", "い", "う"]))
 ->addElement(new Input("インプット", "プレースホルダー", "デフォルト値"))
@@ -77,11 +71,12 @@ use tokyo\pmmp\libform\{
 リストフォームは複数の選択肢の中から一つのものを選択するフォームです
 ```php
 // $this(このクラス)の"test"という名の関数をフォーム入力後に呼び出します
-$list = $this->core->getFormApi()->makeListForm([$this, "test"]);
+$list = FormAPI::makeListForm([$this, "test"]);
 $list->setTitle("リストフォーム")
 ->setContents("内容")
 ->addButton((new Button("ボタン1"))->setImage("画像ファイルのURL", Button::IMAGE_TYPE_URL))
-->addButton((new Button("ボタン2"))->setImage("画像ファイルのパス", Button::IMAGE_TYPE_PATH))
+// パスからは現在画像を読み込むことができません
+// ->addButton((new Button("ボタン2"))->setImage("画像ファイルのパス", Button::IMAGE_TYPE_PATH))
 ->sendToPlayer($sender);
 ```
 
