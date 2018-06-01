@@ -27,43 +27,36 @@ namespace tokyo\pmmp\libform;
 
 // pocketmine
 use pocketmine\{
-  event\Listener,
-  event\player\PlayerQuitEvent,
-  event\server\DataPacketReceiveEvent,
-  network\mcpe\protocol\ModalFormResponsePacket,
-  plugin\PluginBase
+  plugin\PluginBase,
+  Server
 };
 
 // libform
-use tokyo\pmmp\libform\{
-  form\CustomForm,
-  form\ListForm,
-  form\ModalForm
-};
+use tokyo\pmmp\libform\{form\CustomForm, form\Form, form\ListForm, form\ModalForm};
 
 /**
  * FormApiClass
  */
-class FormApi implements Listener{
+class FormApi {
 
-  /** @var ?FormApi */
-  private static $instance = null;
-  /** @var ?PluginBase */
-  private $plugin = null;
+  /** @var bool */
+  private static $activated = false;
   /** @var Form[] */
-  private $forms = [];
+  private static $forms = [];
 
-  public function __construct(PluginBase $plugin) {
-    $this->plugin = $plugin;
-    self::$instance = $plugin;
-    $plugin->getServer()->getPluginManager()->registerEvents($this, $plugin);
+  private function __construct() {
+    // DONT USE THIS METHOD!
   }
 
   /**
-   * @return self
+   * @param PluginBase $plugin
    */
-  public static function get(): self {
-    return self::$instance;
+  public static function register(PluginBase $plugin): void {
+    if (!self::$activated) {
+      Server::getInstance()
+        ->getPluginManager()
+        ->registerEvents(new EventListener, $plugin);
+    }
   }
 
   /**
@@ -71,10 +64,10 @@ class FormApi implements Listener{
    * @param  callable   $callable
    * @return CustomForm
    */
-  public function makeCustomForm(callable $callable = null): CustomForm {
-    $formId = $this->makeRandonFormId();
+  public static function makeCustomForm(callable $callable = null): CustomForm {
+    $formId = self::makeRandomFormId();
     $form = new CustomForm($formId, $callable);
-    if ($callable !== null) $this->forms[$formId] = $form;
+    if ($callable !== null) self::$forms[$formId] = $form;
     return $form;
   }
 
@@ -83,10 +76,10 @@ class FormApi implements Listener{
    * @param  callable $callable
    * @return ListForm
    */
-  public function makeListForm(callable $callable = null): ListForm {
-    $formId = $this->makeRandonFormId();
+  public static function makeListForm(callable $callable = null): ListForm {
+    $formId = self::makeRandomFormId();
     $form = new ListForm($formId, $callable);
-    if ($callable !== null) $this->forms[$formId] = $form;
+    if ($callable !== null) self::$forms[$formId] = $form;
     return $form;
   }
 
@@ -95,10 +88,10 @@ class FormApi implements Listener{
    * @param  callable  $callable
    * @return ModalForm
    */
-  public function makeModalForm(callable $callable = null): ModalForm {
-    $formId = $this->makeRandonFormId();
+  public static function makeModalForm(callable $callable = null): ModalForm {
+    $formId = self::makeRandomFormId();
     $form = new ModalForm($formId, $callable);
-    if ($callable !== null) $this->forms[$formId] = $form;
+    if ($callable !== null) self::$forms[$formId] = $form;
     return $form;
   }
 
@@ -106,8 +99,30 @@ class FormApi implements Listener{
    * Generate random formId
    * @return int formId
    */
-  public function makeRandonFormId(): int {
+  public static function makeRandomFormId(): int {
     return mt_rand(0, mt_getrandmax());
+  }
+
+  /**
+   * @return array
+   */
+  public static function getForms(): array {
+    return self::$forms;
+  }
+
+  /**
+   * @param int $formId
+   * @return Form
+   */
+  public static function getForm(int $formId): Form {
+    return self::$forms[$formId];
+  }
+
+  /**
+   * @param int $formId
+   */
+  public static function removeForm(int $formId): void {
+    unset(self::$forms[$formId]);
   }
 
   /**
@@ -117,36 +132,5 @@ class FormApi implements Listener{
    */
   public static function formCancelled($response): bool {
     return $response === null? true : false;
-  }
-
-  public function onReceive(DataPacketReceiveEvent $event) {
-    $pk = $event->getPacket();
-    if ($pk instanceof ModalFormResponsePacket) {
-      $player = $event->getPlayer();
-      $formId = $pk->formId;
-      $response = json_decode($pk->formData, true);
-      if (array_key_exists($formId, $this->forms)) {
-        $form = $this->forms[$formId];
-        if (!$form->isRecipient($player)) {
-          return false;
-        }
-        $callable = $form->getCallable();
-        if ($callable !== null) {
-          $callable($player, $response);
-        }
-        unset($this->forms[$formId]);
-        $event->setCancelled();
-      }
-    }
-  }
-
-  public function onQuit(PlayerQuitEvent $event) {
-    $player = $event->getPlayer();
-    foreach ($this->forms as $formId => $form) {
-      if ($form->isRecipient($player)) {
-        unset($this->forms[$formId]);
-        break;
-      }
-    }
   }
 }
