@@ -25,15 +25,10 @@
 
 namespace tokyo\pmmp\libform\form;
 
-// libform
-use tokyo\pmmp\libform\{
-  element\Element
-};
-
 /**
  * ModalFormClass
  */
-class ModalForm extends Form {
+class ModalForm extends Form implements \JsonSerializable {
 
   /** @var string */
   private const FORM_TYPE = "modal";
@@ -55,12 +50,16 @@ class ModalForm extends Form {
     return $this;
   }
 
-  public function getContents(): string {
+  public function getContent(): string {
     return $this->data[Form::KEY_CONTENT];
   }
 
-  public function setContents(string $content): ModalForm {
+  public function setContent(string $content): ModalForm {
     $this->data[Form::KEY_CONTENT] = $content;
     return $this;
+  }
+
+  final public function jsonSerialize(): array {
+    return $this->data;
   }
 }

@@ -35,4 +35,8 @@ use tokyo\pmmp\libform\{
  */
 class Image extends Element {
   // TODO: #BlameMojang DOES NOT WORK
+
+  final public function format(): array {
+    return [];
+  }
 }

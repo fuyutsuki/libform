@@ -1,6 +1,6 @@
 name: libform
 antigen: tokyo\pmmp\libform
-version: 0.2.1
+version: 0.3.0
 php:
   - 7.2
 author: yuko_fuyutsuki

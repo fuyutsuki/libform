@@ -38,7 +38,7 @@ class Label extends Element {
   /** @var string */
   protected const ELEMENT_NAME = "label";
 
-  public function format(): array {
+  final public function format(): array {
     $data = [
       Form::KEY_TYPE => self::ELEMENT_NAME,
       Form::KEY_TEXT => $this->text

@@ -1,7 +1,6 @@
 --- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/fuyutsuki/libform
 branches:
 - master
-- legacy/php7.0.x
 projects:
   libform:
     path: ""

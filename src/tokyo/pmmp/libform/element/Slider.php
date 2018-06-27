@@ -51,11 +51,11 @@ class Slider extends Element {
    * @param string $text
    * @param number $min
    * @param number $max
-   * @param number $step = 0
+   * @param int $step
    */
   public function __construct(string $text, $min, $max, $step = 0) {
     if ($min > $max) throw new \InvalidArgumentException("Minimum value must be less than maximum value");
-    $this->text = $text;
+    parent::__construct($text);
     $this->min = $min;
     $this->max = $max;
     $this->defaultValue = $min;
@@ -73,9 +73,10 @@ class Slider extends Element {
       throw new \InvalidArgumentException("The default value must be between the minimum and maximum values");
     }
     $this->defaultValue = $value;
+    return $this;
   }
 
-  public function format(): array {
+  final public function format(): array {
     $data = [
       Form::KEY_TYPE => self::ELEMENT_NAME,
       Form::KEY_TEXT => $this->text,

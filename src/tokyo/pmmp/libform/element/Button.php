@@ -33,7 +33,7 @@ use tokyo\pmmp\libform\{
 /**
  * ButtonClass
  */
-class Button extends Element{
+class Button extends Element {
 
   /** @var string */
   public const IMAGE_TYPE_PATH = "path";
@@ -45,10 +45,6 @@ class Button extends Element{
   protected $imagePath = "";
   /** @var string */
   public $text = "";
-
-  public function __construct(string $text) {
-    $this->text = $text;
-  }
 
   public function setImage(string $imagePath, string $imageType = self::IMAGE_TYPE_PATH): Button {
     switch ($imageType) {
@@ -65,7 +61,7 @@ class Button extends Element{
     return $this;
   }
 
-  public function format(): array {
+  final public function format(): array {
     $data = [
       Form::KEY_TEXT => $this->text
     ];

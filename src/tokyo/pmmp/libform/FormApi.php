@@ -112,17 +112,23 @@ class FormApi {
 
   /**
    * @param int $formId
-   * @return Form
+   * @return Form|null
    */
-  public static function getForm(int $formId): Form {
-    return self::$forms[$formId];
+  public static function getForm(int $formId): ?Form {
+    if (array_key_exists($formId, self::$forms)) {
+      return self::$forms[$formId];
+    }else {
+      return null;
+    }
   }
 
   /**
    * @param int $formId
    */
   public static function removeForm(int $formId): void {
-    unset(self::$forms[$formId]);
+    if (array_key_exists($formId, self::$forms)) {
+      unset(self::$forms[$formId]);
+    }
   }
 
   /**

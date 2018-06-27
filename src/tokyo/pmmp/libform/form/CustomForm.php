@@ -33,7 +33,7 @@ use tokyo\pmmp\libform\{
 /**
  * CustomForm
  */
-class CustomForm extends Form {
+class CustomForm extends Form implements \JsonSerializable {
 
   /** @var string */
   private const FORM_TYPE = "custom_form";
@@ -60,5 +60,14 @@ class CustomForm extends Form {
       $this->data[Form::KEY_CONTENT][] = $element;
     }
     return $this;
+  }
+
+  final public function jsonSerialize(): array {
+    $data = $this->data;
+    unset($data[Form::KEY_CONTENT]);
+    foreach ($this->getElements() as $element) {
+      $data[Form::KEY_CONTENT][] = $element->format();
+    }
+    return $data;
   }
 }

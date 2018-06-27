@@ -42,7 +42,7 @@ class Toggle extends Element {
   protected $defaultValue = false;
 
   public function __construct(string $text, bool $value = false) {
-    $this->text = $text;
+    parent::__construct($text);
     $this->defaultValue = $value;
   }
 
@@ -51,7 +51,7 @@ class Toggle extends Element {
     return $this;
   }
 
-  public function format(): array {
+  final public function format(): array {
     $data = [
       Form::KEY_TYPE => self::ELEMENT_NAME,
       Form::KEY_TEXT => $this->text,

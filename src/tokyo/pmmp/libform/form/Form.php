@@ -34,12 +34,12 @@ use pocketmine\{
 /**
  * abstractFormClass
  */
-abstract class Form {
+abstract class Form implements \JsonSerializable {
 
   /** @var string */
   public const KEY_TYPE = "type";
   public const KEY_CONTENT = "content";
-  public const KEY_DATA= "data";
+  public const KEY_DATA = "data";
   public const KEY_IMAGE = "image";
   public const KEY_TITLE = "title";
   public const KEY_TEXT = "text";
@@ -76,7 +76,7 @@ abstract class Form {
   }
 
   /**
-   * @param  int  $id
+   * @param  int $id
    * @return Form
    */
   public function setId(int $id): Form {
@@ -117,36 +117,19 @@ abstract class Form {
 
   /**
    * @param Player $player
-   * @return bool
+   * @return Form
    */
-  public function sendToPlayer(Player $player): void {
+  public function sendToPlayer(Player $player): Form {
     $pk = new ModalFormRequestPacket;
     $pk->formId = $this->id;
-    $this->formatData($this->data);
-    $pk->formData = json_encode($this->data);
+    $pk->formData = json_encode($this);
     $this->playerName = $player->getName();
     $player->dataPacket($pk);
+    return $this;
   }
 
-  private function formatData(array $data): void {
-    switch (true) {
-      case $this instanceof CustomForm:
-        $data = [];
-        foreach ($this->data[self::KEY_CONTENT] as $element) {
-          $data[] = $element->format();
-        }
-        unset($this->data[self::KEY_CONTENT]);
-        $this->data[self::KEY_CONTENT] = $data;
-      break;
-
-      case $this instanceof ListForm:
-        $data = [];
-        foreach ($this->data[self::KEY_BUTTONS] as $button) {
-          $data[] = $button->format();
-        }
-        unset($this->data[self::KEY_BUTTONS]);
-        $this->data[self::KEY_BUTTONS] = $data;
-      break;
-    }
-  }
+  /**
+   * @return array
+   */
+  abstract public function jsonSerialize(): array;
 }

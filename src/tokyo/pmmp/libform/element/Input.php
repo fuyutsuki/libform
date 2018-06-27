@@ -44,12 +44,12 @@ class Input extends Element {
   protected $defaultText = "";
 
   public function __construct(string $text, string $placeholder, string $defaultText = "") {
-    $this->text = $text;
+    parent::__construct($text);
     $this->placeholder = $placeholder;
     $this->defaultText = $defaultText;
   }
 
-  public function format(): array {
+  final public function format(): array {
     $data = [
       Form::KEY_TYPE => self::ELEMENT_NAME,
       Form::KEY_TEXT => $this->text,

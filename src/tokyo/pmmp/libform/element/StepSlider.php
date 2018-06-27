@@ -44,13 +44,18 @@ class StepSlider extends Element {
   protected $defaultKey = 0;
 
   public function __construct(string $text, array $steps = []) {
-    $this->text = $text;
+    parent::__construct($text);
     $this->steps = $steps;
+  }
+
+  public function getStep(int $key): ?string {
+    return isset($this->steps[$key])? $this->steps[$key] : null;
   }
 
   public function addStep(string $stepText, bool $isDefault = false): StepSlider {
     if ($isDefault) $this->defaultKey = count($this->steps);
     $this->steps[] = $stepText;
+    return $this;
   }
 
   public function removeStep(string $stepText): StepSlider {
@@ -69,11 +74,12 @@ class StepSlider extends Element {
   public function setDefaultStep(string $stepText): StepSlider {
     $flip = array_flip($this->steps);
     if (array_key_exists($stepText, $flip)) {
-      $key = $flip[$key];
+      $key = $flip[$stepText];
       $this->defaultKey = $key;
     }else {
-      throw new \OutOfRangeException("Invalid step text " . $key);
+      throw new \OutOfRangeException("Invalid step text " . $stepText);
     }
+    return $this;
   }
 
   public function format(): array {

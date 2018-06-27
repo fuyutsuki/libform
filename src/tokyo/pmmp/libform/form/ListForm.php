@@ -27,14 +27,13 @@ namespace tokyo\pmmp\libform\form;
 
 // libform
 use tokyo\pmmp\libform\{
-  element\Element,
   element\Button
 };
 
 /**
  * ListFormClass
  */
-class ListForm extends Form {
+class ListForm extends Form implements \JsonSerializable {
 
   /** @var string */
   private const FORM_TYPE = "form";
@@ -46,17 +45,32 @@ class ListForm extends Form {
     Form::KEY_BUTTONS => []
   ];
 
-  public function getContents(): string {
+  public function getContent(): string {
     return $this->data[Form::KEY_CONTENT];
   }
 
-  public function setContents(string $content): ListForm {
+  public function setContent(string $content): ListForm {
     $this->data[Form::KEY_CONTENT] = $content;
     return $this;
+  }
+
+  public function getButtons(): array {
+    return $this->data[Form::KEY_BUTTONS];
   }
 
   public function addButton(Button $button): ListForm {
     $this->data[Form::KEY_BUTTONS][] = $button;
     return $this;
+  }
+
+  final public function jsonSerialize(): array {
+    $data = $this->data;
+    if (!empty(($buttons = $this->getButtons()))) {
+      unset($data[Form::KEY_BUTTONS]);
+      foreach ($this->getButtons() as $button) {
+        $data[Form::KEY_BUTTONS][] = $button->format();
+      }
+    }
+    return $data;
   }
 }

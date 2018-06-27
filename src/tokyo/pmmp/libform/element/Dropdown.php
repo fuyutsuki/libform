@@ -44,8 +44,12 @@ class Dropdown extends Element {
   protected $defaultKey = 0;
 
   public function __construct(string $text, array $options = []) {
-    $this->text = $text;
+    parent::__construct($text);
     $this->options = $options;
+  }
+
+  public function getOption(int $key): ?string {
+    return isset($this->options[$key])? $this->options[$key] : null;
   }
 
   public function addOption(string $option, $isDefault = false): Dropdown {
@@ -77,7 +81,7 @@ class Dropdown extends Element {
     }
   }
 
-  public function format(): array {
+  final public function format(): array {
     $data = [
       Form::KEY_TYPE => self::ELEMENT_NAME,
       Form::KEY_TEXT => $this->text,
