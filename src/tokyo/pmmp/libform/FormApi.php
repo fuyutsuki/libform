@@ -26,13 +26,14 @@
 namespace tokyo\pmmp\libform;
 
 // pocketmine
-use pocketmine\{
-  plugin\PluginBase,
-  Server
-};
+use pocketmine\plugin\PluginBase;
+use pocketmine\Server;
 
 // libform
-use tokyo\pmmp\libform\{form\CustomForm, form\Form, form\ListForm, form\ModalForm};
+use tokyo\pmmp\libform\form\CustomForm;
+use tokyo\pmmp\libform\form\Form;
+use tokyo\pmmp\libform\form\ListForm;
+use tokyo\pmmp\libform\form\ModalForm;
 
 /**
  * FormApiClass
