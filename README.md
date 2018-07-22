@@ -201,7 +201,7 @@ use tokyo\pmmp\libform\{
 // $this(このクラス)の"test"という名の関数をフォーム入力後に呼び出します
 $modal = FormApi::makeModalForm([$this, "test"]);
 $modal->setTitle("モダルフォーム")
-->setContents("内容")
+->setContent("内容")
 ->setButtonText(true, "はい")// true => 上側
 ->setButtonText(false, "いいえ")// false => 下側
 ->sendToPlayer($sender);// プレイヤーに送信
@@ -247,7 +247,7 @@ use tokyo\pmmp\libform\{
 // $this(このクラス)の"test"という名の関数をフォーム入力後に呼び出します
 $list = FormAPI::makeListForm([$this, "test"]);
 $list->setTitle("リストフォーム")
-->setContents("内容")
+->setContent("内容")
 ->addButton((new Button("ボタン1"))->setImage("画像ファイルのURL", Button::IMAGE_TYPE_URL))
 // パスからは現在画像を読み込むことができません
 // ->addButton((new Button("ボタン2"))->setImage("画像ファイルのパス", Button::IMAGE_TYPE_PATH))
