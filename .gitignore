@@ -1,3 +1,5 @@
-.idea/
-.history/
-vendor/
+/.idea
+/.history
+
+/vendor
+/composer.lock
