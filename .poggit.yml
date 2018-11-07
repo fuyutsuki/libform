@@ -6,4 +6,6 @@ projects:
     path: ""
     type: library
     model: virion
+  libform-sample:
+    path: "/sample"
 ...

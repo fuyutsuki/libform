@@ -1,0 +1,18 @@
+name: sample-libform
+main: tokyo\pmmp\sample\libform\Core
+version: 1.0.0
+api: 3.0.0 # pmmp/PocketMine-MP
+softdepend:
+- DEVirion
+author: yuko_fuyutsuki
+website: https://github.com/fuyutsuki/libform
+
+commands:
+  testform:
+    usage: /testform <custom | list | modal>
+    description: test forms!
+
+permissions:
+  sample.command.testform:
+    default: true
+    description: permission that allows player to test forms

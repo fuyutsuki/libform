@@ -1,10 +1,9 @@
 ## libform
 
 ### Overview
-Select language: [English](#en_US), [日本語](#ja_JP)
+Select language: [English](#english), [日本語](#日本語)
 
 ***
-<a name="en_US"></a>
 # English
 
 ## libform
@@ -167,7 +166,6 @@ $modal = FormApi::makeListForm(function(Player $player, ?int $key) {
 ```
 
 ***
-<a name="ja_JP"></a>
 # 日本語
 
 ## libform

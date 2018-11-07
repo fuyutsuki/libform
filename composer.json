@@ -31,7 +31,10 @@
   },
   "autoload": {
     "psr-4": {
-      "": ["src"]
+      "": [
+        "/src",
+        "/sample/src"
+      ]
     }
   },
   "repositories": [
