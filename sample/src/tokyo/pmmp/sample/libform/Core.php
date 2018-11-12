@@ -51,6 +51,10 @@ class Core extends PluginBase {
   /** @var ListForm */
   private $list;
 
+  public function onEnable() {
+  	FormApi::register($this);
+  }
+
   public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool {
     if (!$command->testPermission($sender)) return false;
     if ($sender instanceof Player) {
@@ -69,7 +73,7 @@ class Core extends PluginBase {
       }
       return false;
     }else {
-      $this->getLogger()->info(TextFormat::RED . self::PREFIX . "Please use this command in game");
+      $this->getLogger()->info(TextFormat::RED . "Please use this command in game");
     }
     return true;
   }
