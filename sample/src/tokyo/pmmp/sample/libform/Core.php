@@ -52,7 +52,7 @@ class Core extends PluginBase {
   private $list;
 
   public function onEnable() {
-  	FormApi::register($this);
+  	FormApi::register($this);// Register a class that extends PluginBase before using it
   }
 
   public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool {
